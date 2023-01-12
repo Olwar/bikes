@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Violating Drones</title>
+        <link rel="icon" type="image/x-icon" href="drone.png">
+    </head>
+    <body>
+        <div class="header">
+            <h1>HSL City Bike Rides</h1>
+            <h6>Made by Olli Airola</h6>
+          </div> 
+    </body>
+
+    <style>
+        .header {
+        padding: 60px;
+        text-align: center;
+        background: #1abc9c;
+        color: white;
+        font-size: 30px;
+        }
+
+        .styled-table {
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        min-width: 400px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+        }
+
+        .styled-table thead tr {
+        background-color: #009879;
+        color: #ffffff;
+        text-align: left;
+        }
+
+        .styled-table th,
+        .styled-table td {
+        padding: 12px 15px;
+        }
+
+        .styled-table tbody tr {
+        border-bottom: 1px solid #dddddd;
+        }
+
+        .styled-table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+    
+        .styled-table tbody tr:last-of-type {
+            border-bottom: 2px solid #f3f3f3;
+        }
+
+        .center {
+          display: block;
+          margin-left: auto;
+          margin-right: auto;
+          width: 50%;
+        }
+    </style>
+
+    <head>
+        <script src="main.js"></script>
+        <link rel="stylesheet" href="style.css" />
+        <meta charset="UTF-8" />
+        <meta name="viewport" 
+            content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <!-- Here a loader is created which loads till response comes -->
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border" 
+                role="status" id="loading">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- table for showing data -->
+        <table class="styled-table" id="rides"></table>
+    </body>
+</html>
