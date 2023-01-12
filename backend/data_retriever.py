@@ -1,7 +1,7 @@
 import requests
 import sqlite3
 import pandas as pd
-import re
+import numpy as np
 
 # download csv files from an url
 def load_csv(url):
@@ -9,12 +9,12 @@ def load_csv(url):
     name = url[-11:]
     with open(name, 'wb') as f:
         f.write(r.content)
+    dataframe = pd.read_csv(name)
     conn = sqlite3.connect(f'{name[:-4]}.db')
     c = conn.cursor()
     c.execute("""CREATE TABLE IF NOT EXISTS trips \
     (departure_time, return_time, departure_station_id, departure_station_name, \
     return_station_id, return_station_name, covered_dist_m, duration_sec)""")
-    dataframe = pd.read_csv(name)
     dataframe.to_sql('trips', conn, if_exists='replace', index=False)
     conn.commit()
 
@@ -43,6 +43,19 @@ def combine_dbs():
     db1.close()
     db2.close()
     db3.close()
+    
+def split_db():
+    conn = sqlite3.connect('trips.db')
+    dataframe = pd.read_sql_query("SELECT * FROM trips", conn)
+    dataframe_list = np.array_split(dataframe, 100)
+    for i in range(len(dataframe_list)):
+        conn = sqlite3.connect(f'trips_{i}.db')
+        c = conn.cursor()
+        c.execute("""CREATE TABLE IF NOT EXISTS trips \
+        (departure_time, return_time, departure_station_id, departure_station_name, \
+        return_station_id, return_station_name, covered_dist_m, duration_sec)""")
+        dataframe_list[i].to_sql('trips', conn, if_exists='replace', index=False)
+        conn.commit()
 
 def main():
     url = [
@@ -50,9 +63,11 @@ def main():
         "https://dev.hsl.fi/citybikes/od-trips-2021/2021-06.csv",
         "https://dev.hsl.fi/citybikes/od-trips-2021/2021-07.csv"
     ]
-    for i in range(len(url)):
-        load_csv(url[i])
+    #for i in range(len(url)):
+    #    load_csv(url[i])
     combine_dbs()
+    split_db()
+
 
 if __name__ == '__main__':
     main()

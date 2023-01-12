@@ -1,5 +1,5 @@
 // api url
-const api_url = "https://134-122-52-132.sslip.io/";
+const api_url = "http://127.0.0.1:8000/1";
 
 // gets all the drone data from the fastapi
 async function getapi(url) {
@@ -16,7 +16,7 @@ async function getapi(url) {
 function startLiveUpdate() {
     setInterval(function() {
         getapi(api_url);
-    }, 2000);
+    }, 200000);
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -44,6 +44,7 @@ function show(data) {
         tab += `
         <table>
             <tr>
+                <td>${r[0]}</td>
                 <td>${r[1]}</td>
                 <td>${r[2]}</td>
                 <td>${r[3]}</td>
@@ -51,7 +52,6 @@ function show(data) {
                 <td>${r[5]}</td>
                 <td>${r[6]}</td>
                 <td>${r[7]}</td>
-                <td>${r[8]}</td>
             </tr>
         </table>`;
     }

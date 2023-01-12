@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from data_retriever import main
 import sqlite3
 
-app = FastAPI(title="drone API")
+app = FastAPI(title="bike API")
 
 # CORS configuration
 origins = [
@@ -18,12 +18,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# gets all the drone info from the violators database
-@app.get("/")
-def get_drones():
-    conn = sqlite3.connect('violators.db')
-    c = conn.cursor()
-    c.execute("SELECT id, name, email, phone, distance FROM violators")
-    rows = c.fetchall()
-    conn.close()
-    return rows
+# gets all the trips' info from the bikes database
+for i in range(100):
+    @app.get(f"/{i}")
+    def get_drones():
+        conn = sqlite3.connect(f'trips_{i}.db')
+        c = conn.cursor()
+        c.execute("SELECT * FROM trips")
+        rows = c.fetchall()
+        conn.close()
+        return rows
